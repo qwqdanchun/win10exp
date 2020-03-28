@@ -193,7 +193,7 @@ global $theme_option;
                 <div class="layui-form-item">
                     <div class="theme-set-title">说明地址</div>
                     <div class="theme-set-control">
-                        <a href="https://github.com/qwqdanchun/win10explore" target="_blank">https://github.com/qwqdanchun/win10explore</a>
+                        <a href="https://github.com/qwqdanchun/win10exp" target="_blank">https://github.com/qwqdanchun/win10exp</a>
                     </div>
                 </div>
                 <div class="layui-form-item">

@@ -74,7 +74,7 @@ function my_comment($comment, $args, $depth)
         <div class="media-body">
             <?php echo __('<p class="author_name">') . get_comment_author_link() . $reply . '</p>'; ?>
             <?php if ($comment->comment_approved == '0') : ?>
-                <em>评论等待审核...</em><br/>
+                <em>看法等待审核...</em><br/>
             <?php endif; ?>
             <?php echo comment_text(); ?>
         </div>
