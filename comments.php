@@ -9,7 +9,7 @@ if ( post_password_required() )
             'submit_button' => '<div style="text-align: right"><input name="%1$s" type="submit" id="%2$s" class="%3$s" value="%4$s" /></div>',
             'comment_notes_before' => '',
             'class_submit' => 'button_submit',
-            'label_submit' => __('提交评论', 'win10exp'),
+            'label_submit' => __('提交看法', 'win10exp'),
             'comment_notes_after' => '',
             'id_form' => 'form_comment',
             'cancel_reply_link' => __('取消回复', 'win10exp'),
@@ -24,7 +24,7 @@ if ( post_password_required() )
     } ?>
 
     <meta content="UserComments:<?php echo number_format_i18n( get_comments_number() );?>" itemprop="interactionCount">
-    <h3 class="comments-title">共有 <span class="commentCount"><?php echo number_format_i18n( get_comments_number() );?></span> 条评论</h3>
+    <h3 class="comments-title">共有 <span class="commentCount"><?php echo number_format_i18n( get_comments_number() );?></span> 条看法</h3>
     <ol class="commentlist">
         <?php
         wp_list_comments( array(
