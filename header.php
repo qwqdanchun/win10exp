@@ -15,14 +15,19 @@ $catid = $cat[0]->cat_ID;
     <link rel="stylesheet"
           href="<?php echo get_stylesheet_directory_uri() . '/static/font-awesome/css/font-awesome.css' ?>"
           type="text/css"/>
-
+    <script type="text/javascript">function kaishi(){var docElm=document.documentElement;if(docElm.requestFullscreen){docElm.requestFullscreen()}else if(docElm.mozRequestFullScreen){docElm.mozRequestFullScreen()}else if(docElm.webkitRequestFullScreen){docElm.webkitRequestFullScreen()}else if(elem.msRequestFullscreen){elem.msRequestFullscreen()}}function guanbi(){if(document.exitFullscreen){document.exitFullscreen()}else if(document.mozCancelFullScreen){document.mozCancelFullScreen()}else if(document.webkitCancelFullScreen){document.webkitCancelFullScreen()}else if(document.msExitFullscreen){document.msExitFullscreen()}}document.addEventListener("fullscreenchange",function(){fullscreenState.innerHTML=(document.fullscreen)?"":"not "},false);document.addEventListener("mozfullscreenchange",function(){fullscreenState.innerHTML=(document.mozFullScreen)?"":"not "},false);document.addEventListener("webkitfullscreenchange",function(){fullscreenState.innerHTML=(document.webkitIsFullScreen)?"":"not "},false);document.addEventListener("msfullscreenchange",function(){fullscreenState.innerHTML=(document.msFullscreenElement)?"":"not "},false);</script>
     <?php wp_head(); ?>
 </head>
 <body>
     <div class="layui-container" id="main">
     <div class="blog-title"><?php obj_title_icon();
         bloginfo('name'); ?>
-        <div class="close"><i class="layui-icon layui-icon-close"></i>
+        <div class="close"><a href="javascript:window.opener=null;window.open('','_self');window.close();"><i
+                        class="layui-icon layui-icon-close"></i></a>
+        </div>
+        <div class="maximize" onclick="kaishi()"><a><i class="fa fa-window-maximize"></i></a>
+        </div>
+        <div class="minimize" onclick="guanbi()"><a><i class="fa fa-window-minimize"></i></a>
         </div>
     </div>
     <div class="toolbar">

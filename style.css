@@ -57,6 +57,30 @@ License version 3.0 (http://www.gnu.org/licenses/gpl-3.0.html)
     color: #fff!important;
 }
 
+.maximize {
+    text-align: center;
+    line-height: 30px;
+    width: 45px;
+    height: 30px;
+    float: right;
+    background-blend-mode: lighten;
+    background-size: cover;
+}
+.maximize a {
+    color: #fff!important;
+}
+.minimize {
+    text-align: center;
+    line-height: 30px;
+    width: 45px;
+    height: 30px;
+    float: right;
+    background-blend-mode: lighten;
+    background-size: cover;
+}
+.minimize a {
+    color: #fff!important;
+}
 .blog-title {
     padding-left: 10px;
     user-select: none;
