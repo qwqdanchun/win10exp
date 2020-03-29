@@ -22,7 +22,6 @@ $catid = $cat[0]->cat_ID;
     <div class="layui-container" id="main">
     <div class="blog-title"><?php obj_title_icon();
         bloginfo('name'); ?>
-        <div class="post-title"> - <?php the_title(); ?></div>
         <div class="close"><i class="layui-icon layui-icon-close"></i>
         </div>
     </div>
