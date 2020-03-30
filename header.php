@@ -1,4 +1,6 @@
 <?php
+$cat_name = single_cat_title("", false);
+$cat_id = get_cat_ID($cat_name);
 $cat = get_the_category();
 $catid = $cat[0]->cat_ID;
 ?>
@@ -48,7 +50,7 @@ $catid = $cat[0]->cat_ID;
                                                 <?php if (is_front_page()) {?>
                                                 <span>首页</span>
                                                 <?php }elseif(is_category()){?>
-                                                <span><a href="<?php echo get_category_link($catid)?>"><?php echo get_cat_name($catid)?></a></span>
+                                                <span><a href="<?php echo get_category_link($cat_id)?>"><?php echo get_cat_name($cat_id)?></a></span>
                                                 <?php }elseif(is_page()){?>
                                                 <span><?php the_title() ?></span>
                                                 <?php }elseif(is_single()){?>
@@ -61,3 +63,4 @@ $catid = $cat[0]->cat_ID;
             </div>
         </div>
     </div>
+
