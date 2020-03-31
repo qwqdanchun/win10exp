@@ -20,7 +20,6 @@
 2020-3-16  
 新增友情链接模板  
 ## 注意事项  
-需要安装插件：WP-PostViews
 推荐安装插件：Enlighter;WP Mail SMTP;WP Statistics
 ## LICENSE  
 遵循GPL协议，非商业用途免费使用  
