@@ -13,7 +13,7 @@ if ( post_password_required() )
             'comment_notes_after' => '',
             'id_form' => 'form_comment',
             'cancel_reply_link' => __('取消回复', 'win10exp'),
-            'comment_field' => '<div class="comment_form_textarea_box layui-row"><textarea class="comment_form_textarea layui-col-md12 layui-col-xs12" name="comment" id="comment" placeholder="发表你的看法吧~~~啦啦啦"></textarea></div>',
+            'comment_field' => '<div class="comment_form_textarea_box layui-row"><textarea class="comment_form_textarea layui-col-md12 layui-col-xs12" name="comment" id="comment" placeholder="发表你的看法吧~~~啦啦啦(评论内插入[nmsl]可自动转为抽象话)"></textarea></div>',
             'fields' => apply_filters('comment_form_default_fields', array(
                 'author' => '<div class="layui-row comment_form_input"><input class="layui-col-md4 layui-col-xs12" placeholder="昵称" type="text" id="author" name="author" value="' . esc_attr($comment_author) . '" ' . ($req ? "required" : '') . '>',
                 'email' => '<input class="layui-col-md4 layui-col-xs12" type="email" id="email" name="email" placeholder="邮箱地址" value="' . esc_attr($comment_author_email) . '" ' . ($req ? "required" : '') . '>',
