@@ -4,6 +4,8 @@ define('THEME_ID', 'win10exp'); // 主题ID，请勿修改,否则可能导致配
 define('THEME_VERSION', '1.0.0'); // 主题内部版本号，请勿修改，否则可能导致配置错误
 define('THEME_ID_SET', 'win10exp_set');
 
+include ("wp-postviews/wp-postviews.php"); // wp-postviews
+
 global $theme_option;
 
 theme_int_set();
