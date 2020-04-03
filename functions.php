@@ -248,4 +248,92 @@ function nmsl_conents_replace($incoming_comment) {
 }
 add_filter( 'comment_text', 'nmsl_conents_replace' );
 add_filter( 'comment_text_rss', 'nmsl_conents_replace' );
+
+//公祭日变灰
+date_default_timezone_set( 'Asia/Shanghai' );
+add_action( 'wp_head', 'btmd_memorial_day' );
+function btmd_memorial_day() {
+    $options     = get_option( 'plugin_options' );
+    $theme_color = $options['text_string'];
+    $custom_date = $options['text_date'];
+    if ( strstr( $custom_date, date( 'm-d', time() ) ) ):?>
+        <meta name="theme-color" content="757575">
+        <style type="text/css">
+            <!--
+            html {
+                filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+                -webkit-filter: grayscale(100%);
+            }
+            -->
+        </style>
+        <?php btmd_change_meta() ?>
+    <?php elseif ( ! empty( $theme_color ) ): ?>
+        <meta name="theme-color" content="<?= $theme_color; ?>">
+        <?php btmd_change_meta($theme_color) ?>
+    <?php endif; ?>
+<?php }
+function btmd_change_meta($hex_color='757575') {
+    ?>
+    <script>
+        var meta = document.getElementsByTagName('meta');
+        meta["theme-color"].setAttribute('content', '<?="#".$hex_color?>');
+    </script>
+    <?
+}
+add_action( 'admin_menu', 'btmd_admin_add_page' );
+function btmd_admin_add_page() {
+    add_options_page(
+        'MemorialDay 设置页面',
+        'MemorialDay 设置',
+        'manage_options',
+        'MemorialDay',
+        'btmd_options_page' );
+}
+function btmd_options_page() {
+    ?>
+    <div>
+         <h2>以此来缅怀那些逝去的生命</h2>  
+        请设置你需要的日期（形如04-04）与主题颜色（theme-color）  
+        <form action="options.php" method="post">
+            <?php settings_fields( 'plugin_options' ); ?>
+            <?php do_settings_sections( 'plugin' ); ?>
+
+            <input name="Submit" type="submit" value="<?php esc_attr_e( 'Save Changes' ); ?>"/>
+        </form>
+    </div>
+    <?php
+}
+add_action( 'admin_init', 'btmd_admin_init' );
+function btmd_admin_init() {
+    register_setting(
+        'plugin_options',
+        'plugin_options',
+        'plugin_options_validate' );
+    add_settings_section(
+        'plugin_main',
+        '日期设置，一行一个',
+        'btmd_date_text',
+        'plugin'
+    );
+    add_settings_section(
+        'plugin_main2',
+        'theme-color，十六进制不需要带#',
+        'btmd_color_text',
+        'plugin'
+    );
+}
+function btmd_date_text() {
+    $options = get_option( 'plugin_options' );
+    if(empty($options['text_date']))
+        $options['text_date']=$options['text_date'].
+        '04-04
+12-13';
+    echo "<textarea name='plugin_options[text_date]'>" . $options['text_date'] . "</textarea>";
+}
+function btmd_color_text() {
+    $options = get_option( 'plugin_options' );
+    echo "<input id='color_string' name='plugin_options[text_string]' size='40' 
+type='text' value='{$options['text_string']}' />" . "<br>" . "<br>";
+}
+
 ?>
