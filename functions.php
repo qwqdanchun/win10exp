@@ -250,7 +250,7 @@ add_filter( 'comment_text', 'nmsl_conents_replace' );
 add_filter( 'comment_text_rss', 'nmsl_conents_replace' );
 
 //公祭日变灰
-date_default_timezone_set( 'Asia/Shanghai' );
+//date_default_timezone_set( 'Asia/Shanghai' );
 add_action( 'wp_head', 'btmd_memorial_day' );
 function btmd_memorial_day() {
     $options     = get_option( 'plugin_options' );
