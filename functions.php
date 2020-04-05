@@ -4,7 +4,7 @@ define('THEME_ID', 'win10exp'); // 主题ID，请勿修改,否则可能导致配
 define('THEME_VERSION', '1.0.0'); // 主题内部版本号，请勿修改，否则可能导致配置错误
 define('THEME_ID_SET', 'win10exp_set');
 
-include ("wp-postviews/wp-postviews.php"); // wp-postviews
+
 
 global $theme_option;
 
@@ -139,7 +139,7 @@ remove_action('wp_head', 'start_post_rel_link', 10, 0);
 remove_action('wp_head', 'wp_generator');
 remove_action('wp_head', 'wp_generator'); //隐藏wordpress版本
 remove_filter('the_content', 'wptexturize'); //取消标点符号转义
-
+//灵感
 function inspiration_init()
 {
   $labels = [
@@ -250,13 +250,13 @@ add_filter( 'comment_text', 'nmsl_conents_replace' );
 add_filter( 'comment_text_rss', 'nmsl_conents_replace' );
 
 //公祭日变灰
-//date_default_timezone_set( 'Asia/Shanghai' );
-add_action( 'wp_head', 'btmd_memorial_day' );
-function btmd_memorial_day() {
+
+add_action( 'wp_head', 'win10exp_memorial_day' );
+function win10exp_memorial_day() {
     $options     = get_option( 'plugin_options' );
     $theme_color = $options['text_string'];
     $custom_date = $options['text_date'];
-    if ( strstr( $custom_date, date( 'm-d', time() ) ) ):?>
+    if ( strstr( $custom_date, date( 'm-d', current_time( 'timestamp' ) ) ) ):?>
         <meta name="theme-color" content="757575">
         <style type="text/css">
             <!--
@@ -266,13 +266,13 @@ function btmd_memorial_day() {
             }
             -->
         </style>
-        <?php btmd_change_meta() ?>
+        <?php win10exp_change_meta() ?>
     <?php elseif ( ! empty( $theme_color ) ): ?>
         <meta name="theme-color" content="<?= $theme_color; ?>">
-        <?php btmd_change_meta($theme_color) ?>
+        <?php win10exp_change_meta($theme_color) ?>
     <?php endif; ?>
 <?php }
-function btmd_change_meta($hex_color='757575') {
+function win10exp_change_meta($hex_color='757575') {
     ?>
     <script>
         var meta = document.getElementsByTagName('meta');
@@ -280,16 +280,16 @@ function btmd_change_meta($hex_color='757575') {
     </script>
     <?
 }
-add_action( 'admin_menu', 'btmd_admin_add_page' );
-function btmd_admin_add_page() {
+add_action( 'admin_menu', 'win10exp_admin_add_page' );
+function win10exp_admin_add_page() {
     add_options_page(
         'MemorialDay 设置页面',
         'MemorialDay 设置',
         'manage_options',
         'MemorialDay',
-        'btmd_options_page' );
+        'win10exp_options_page' );
 }
-function btmd_options_page() {
+function win10exp_options_page() {
     ?>
     <div>
          <h2>以此来缅怀那些逝去的生命</h2>  
@@ -303,8 +303,8 @@ function btmd_options_page() {
     </div>
     <?php
 }
-add_action( 'admin_init', 'btmd_admin_init' );
-function btmd_admin_init() {
+add_action( 'admin_init', 'win10exp_admin_init' );
+function win10exp_admin_init() {
     register_setting(
         'plugin_options',
         'plugin_options',
@@ -312,17 +312,17 @@ function btmd_admin_init() {
     add_settings_section(
         'plugin_main',
         '日期设置，一行一个',
-        'btmd_date_text',
+        'win10exp_date_text',
         'plugin'
     );
     add_settings_section(
         'plugin_main2',
         'theme-color，十六进制不需要带#',
-        'btmd_color_text',
+        'win10exp_color_text',
         'plugin'
     );
 }
-function btmd_date_text() {
+function win10exp_date_text() {
     $options = get_option( 'plugin_options' );
     if(empty($options['text_date']))
         $options['text_date']=$options['text_date'].
@@ -330,10 +330,172 @@ function btmd_date_text() {
 12-13';
     echo "<textarea name='plugin_options[text_date]'>" . $options['text_date'] . "</textarea>";
 }
-function btmd_color_text() {
+function win10exp_color_text() {
     $options = get_option( 'plugin_options' );
     echo "<input id='color_string' name='plugin_options[text_string]' size='40' 
 type='text' value='{$options['text_string']}' />" . "<br>" . "<br>";
 }
 
+//集成wp-postviews
+add_action( 'wp_head', 'process_postviews' );
+function process_postviews() {
+    global $user_ID, $post;
+    if ( is_int( $post ) ) {
+        $post = get_post( $post );
+    }
+    if ( ! wp_is_post_revision( $post ) && ! is_preview() ) {
+        if ( is_single() || is_page() ) {
+            $id = (int) $post->ID;
+            if ( !$post_views = get_post_meta( $post->ID, 'views', true ) ) {
+                $post_views = 0;
+            }
+            $should_count = false;
+            if( empty( $_COOKIE[ USER_COOKIE ] ) && (int) $user_ID === 0 ) {
+                $should_count = true;
+            }
+            $should_count = apply_filters( 'postviews_should_count', $should_count, $id );
+            if( $should_count ) {
+                update_post_meta( $id, 'views', $post_views + 1 );
+                do_action( 'postviews_increment_views', $post_views + 1 );
+            }
+        }
+    }
+}
+function the_views($display = true, $prefix = '', $postfix = '', $always = true) {
+    $post_views = (int) get_post_meta( get_the_ID(), 'views', true );
+    if ($always) {
+        $output = $prefix.str_replace( array( '%VIEW_COUNT%', '%VIEW_COUNT_ROUNDED%' ), array( number_format_i18n( $post_views ), postviews_round_number( $post_views) ),  __( '%VIEW_COUNT% 次浏览', 'wp-postviews' ) ).$postfix;
+        if($display) {
+            echo apply_filters('the_views', $output);
+        } else {
+            return apply_filters('the_views', $output);
+        }
+    }
+    elseif (!$display) {
+        return '';
+    }
+}
+if(!function_exists('get_totalviews')) {
+    function get_totalviews($display = true) {
+        global $wpdb;
+        $total_views = (int) $wpdb->get_var("SELECT SUM(meta_value+0) FROM $wpdb->postmeta WHERE meta_key = 'views'" );
+        if($display) {
+            echo number_format_i18n($total_views);
+        } else {
+            return $total_views;
+        }
+    }
+}
+if(!function_exists('snippet_text')) {
+    function snippet_text($text, $length = 0) {
+        if (defined('MB_OVERLOAD_STRING')) {
+          $text = @html_entity_decode($text, ENT_QUOTES, get_option('blog_charset'));
+             if (mb_strlen($text) > $length) {
+                return htmlentities(mb_substr($text,0,$length), ENT_COMPAT, get_option('blog_charset')).'...';
+             } else {
+                return htmlentities($text, ENT_COMPAT, get_option('blog_charset'));
+             }
+        } else {
+            $text = @html_entity_decode($text, ENT_QUOTES, get_option('blog_charset'));
+             if (strlen($text) > $length) {
+                return htmlentities(substr($text,0,$length), ENT_COMPAT, get_option('blog_charset')).'...';
+             } else {
+                return htmlentities($text, ENT_COMPAT, get_option('blog_charset'));
+             }
+        }
+    }
+}
+function views_fields($content) {
+    global $wpdb;
+    $content .= ", ($wpdb->postmeta.meta_value+0) AS views";
+    return $content;
+}
+function views_join($content) {
+    global $wpdb;
+    $content .= " LEFT JOIN $wpdb->postmeta ON $wpdb->postmeta.post_id = $wpdb->posts.ID";
+    return $content;
+}
+function views_where($content) {
+    global $wpdb;
+    $content .= " AND $wpdb->postmeta.meta_key = 'views'";
+    return $content;
+}
+function views_orderby($content) {
+    $orderby = trim(addslashes(get_query_var('v_orderby')));
+    if(empty($orderby) || ($orderby != 'asc' && $orderby != 'desc')) {
+        $orderby = 'desc';
+    }
+    $content = " views $orderby";
+    return $content;
+}
+add_action('publish_post', 'add_views_fields');
+add_action('publish_page', 'add_views_fields');
+function add_views_fields($post_ID) {
+    global $wpdb;
+    if(!wp_is_post_revision($post_ID)) {
+        add_post_meta($post_ID, 'views', 0, true);
+    }
+}
+add_filter('query_vars', 'views_variables');
+function views_variables($public_query_vars) {
+    $public_query_vars[] = 'v_sortby';
+    $public_query_vars[] = 'v_orderby';
+    return $public_query_vars;
+}
+add_action('pre_get_posts', 'views_sorting');
+function views_sorting($local_wp_query) {
+    if($local_wp_query->get('v_sortby') == 'views') {
+        add_filter('posts_fields', 'views_fields');
+        add_filter('posts_join', 'views_join');
+        add_filter('posts_where', 'views_where');
+        add_filter('posts_orderby', 'views_orderby');
+    } else {
+        remove_filter('posts_fields', 'views_fields');
+        remove_filter('posts_join', 'views_join');
+        remove_filter('posts_where', 'views_where');
+        remove_filter('posts_orderby', 'views_orderby');
+    }
+}
+add_action('manage_posts_custom_column', 'add_postviews_column_content');
+add_filter('manage_posts_columns', 'add_postviews_column');
+add_action('manage_pages_custom_column', 'add_postviews_column_content');
+add_filter('manage_pages_columns', 'add_postviews_column');
+function add_postviews_column($defaults) {
+    $defaults['views'] = __( 'Views', 'wp-postviews' );
+    return $defaults;
+}
+function add_postviews_column_content($column_name) {
+    if ($column_name === 'views' ) {
+        if ( function_exists('the_views' ) ) {
+            the_views( true, '', '', true );
+        }
+    }
+}
+add_filter( 'manage_edit-post_sortable_columns', 'sort_postviews_column');
+add_filter( 'manage_edit-page_sortable_columns', 'sort_postviews_column' );
+function sort_postviews_column( $defaults ) {
+    $defaults['views'] = 'views';
+    return $defaults;
+}
+add_action('pre_get_posts', 'sort_postviews');
+function sort_postviews($query) {
+    if ( ! is_admin() ) {
+        return;
+    }
+    $orderby = $query->get('orderby');
+    if ( 'views' === $orderby ) {
+        $query->set( 'meta_key', 'views' );
+        $query->set( 'orderby', 'meta_value_num' );
+    }
+}
+function postviews_round_number( $number, $min_value = 1000, $decimal = 1 ) {
+    if( $number < $min_value ) {
+        return number_format_i18n( $number );
+    }
+    $alphabets = array( 1000000000 => 'B', 1000000 => 'M', 1000 => 'K' );
+    foreach( $alphabets as $key => $value )
+        if( $number >= $key ) {
+            return round( $number / $key, $decimal ) . '' . $value;
+        }
+}
 ?>

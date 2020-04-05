@@ -245,35 +245,6 @@ function obj_title_icon()
 
 }
 
-
-/**
- * Get Option.
- *
- * Helper function to return the theme option value.
- * If no value has been saved, it returns $default.
- * Needed because options are saved as serialized strings.
- */
-
-if ( ! function_exists( 'win10_option' ) ) {
-
-    function win10_option( $name, $default = false ) {
-        $config = get_option( 'optionsframework' );
-
-        if ( ! isset( $config['id'] ) ) {
-            return $default;
-        }
-
-        $options = get_option( $config['id'] );
-
-        if ( isset( $options[$name] ) ) {
-            return $options[$name];
-        }
-
-        return $default;
-    }
-}
-
-
 /*
  * 友情链接
  */

@@ -13,7 +13,7 @@ get_header();
         <div class="layui-col-md10 post-content">
             <div class="post-content-content">
                 <?php while(have_posts()) : the_post(); ?>
-	<?php if(win10_option('patternimg') || !get_post_thumbnail_id(get_the_ID())) { ?>
+	<?php if(!get_post_thumbnail_id(get_the_ID())) { ?>
 	<?php } ?>
 		<article <?php post_class("post-item"); ?>>
 			<?php the_content(); ?>
