@@ -11,6 +11,7 @@ $catid = $cat[0]->cat_ID;
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?php get_blog_title_obj() ?></title>
     <?php obj_seo_set(); ?>
+    <?php obj_gray_set(); ?>
     <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css"/>
     <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri() . '/static/layui/css/layui.css' ?>"
           type="text/css"/>

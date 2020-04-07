@@ -106,6 +106,37 @@ global $theme_option;
                             <img src="<?php echo $theme_option['single_icon'] ?>" alt="" width="38" height="38">
                         </div>
                     </div>
+                    <div class="layui-form-item">
+                        <div class="theme-set-title">日期自动变灰</div>
+                        <div class="theme-set-control">
+                            <?php
+
+                            if ($theme_option['autogray'] == 1) {
+                                $checked = 'checked';
+                            } else {
+                                $checked = '';
+                            }
+                            ?>
+                            <input class="" type="checkbox" name="autogray" lay-skin="switch"
+                                   lay-filter="switch-autogray"
+                                   lay-text="开启|关闭" <?php echo $checked ?>>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="theme-set-title">设置你需要变灰的日期,一行一个（形如04-04）</div>
+                        <div class="theme-set-control">
+                            <textarea name="gray_day" class="layui-textarea"
+                                      disabled><?php echo $theme_option['gray_day'] ?></textarea>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="theme-set-title">变灰后的theme-color,十六进制不需要带#(默认757575)</div>
+                        <div class="theme-set-control">
+                            <input type="text" name="gray_theme" class="theme-set-input"
+                                   value="<?php echo $theme_option['gray_theme'] ?>" disabled>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -213,6 +244,7 @@ global $theme_option;
         var form = layui.form;
         var switch_seo = <?php echo $theme_option['seo'];?>;
         var switch_autoseo = <?php echo $theme_option['seo'];?>;
+        var switch_autogray = <?php echo $theme_option['autogray'];?>;
 
         $(document).ready(function () {
             initset();
@@ -225,6 +257,11 @@ global $theme_option;
                 $("textarea[name=site-key]").attr("disabled", false);
                 $("input[name=autoseo]").attr("disabled", false);
                 $("input[name=site-name]").attr("disabled", false);
+                form.render();
+            }
+            if (switch_autogray == 1) {
+                $("textarea[name=gray_day]").attr("disabled", false);
+                $("input[name=gray_theme]").attr("disabled", false);
                 form.render();
             }
         }
@@ -265,6 +302,8 @@ global $theme_option;
             var folder_Music = $("input[name=folder_Music]").val();
             var folder_Desktop = $("input[name=folder_Desktop]").val();
             var folder_Articals = $("input[name=folder_Articals]").val();
+            var gray_day = $("textarea[name=gray_day]").val();
+            var gray_theme = $("input[name=gray_theme]").val();
             var data = {
                 action: 'save_set',
                 seo: switch_seo,
@@ -282,7 +321,10 @@ global $theme_option;
                 folder_Download: folder_Download,
                 folder_Music: folder_Music,
                 folder_Desktop: folder_Desktop,
-                folder_Articals: folder_Articals
+                folder_Articals: folder_Articals,
+                autogray: switch_autogray,
+                gray_day: gray_day,
+                gray_theme: gray_theme
 
             }
             $.post("<?php echo admin_url('admin-ajax.php');?>", data, function (data) {
@@ -324,6 +366,19 @@ global $theme_option;
             } else {
                 switch_autoseo = 0;
             }
+        });
+        form.on('switch(switch-autogray)', function (data) {
+            var open = data.elem.checked;
+            if (open == true) {
+                $("textarea[name=gray_day]").attr("disabled", false);
+                $("input[name=gray_theme]").attr("disabled", false);
+                switch_autogray = 1;
+            } else {
+                $("textarea[name=gray_day]").attr("disabled", true);
+                $("input[name=gray_theme]").attr("disabled", true);
+                switch_autogray = 0;
+            }
+            form.render();
         });
     </script>
 

@@ -18,6 +18,9 @@ function fun_save_set()
     $theme_option['folder_Music'] = $_POST['folder_Music'];
     $theme_option['folder_Desktop'] = $_POST['folder_Desktop'];
     $theme_option['folder_Articals'] = $_POST['folder_Articals'];
+    $theme_option['autogray'] = $_POST['autogray'];
+    $theme_option['gray_day'] = $_POST['gray_day'];
+    $theme_option['gray_theme'] = $_POST['gray_theme'];
     update_option(THEME_ID_SET, json_encode($theme_option));
     echo 1;
     wp_die();

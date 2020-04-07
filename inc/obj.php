@@ -277,5 +277,42 @@ function get_link_items(){
   return $result;
 }
 
+
+
+function obj_gray_set()
+{
+    global $theme_option;
+
+    if ($theme_option['autogray'] != 1) {
+        return;
+    }
+    $gray_day = $theme_option['gray_day'];
+    if ($theme_option['gray_theme'] == "") {
+        $gray_theme = 757575;
+    }
+    
+    if ( strstr( $gray_day, date( 'm-d', current_time( 'timestamp' ) ) ) ):?>
+        <meta name="theme-color" content="757575">
+        <style type="text/css">
+            <!--
+            html {
+                filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+                -webkit-filter: grayscale(100%);
+            }
+            -->
+        </style>
+        <?php win10exp_change_meta() ?>
+    <?php elseif ( ! empty( $gray_theme ) ): ?>
+        <meta name="theme-color" content="<?= $gray_theme; ?>">
+    <?php endif; ?>
+    <script>
+        var meta = document.getElementsByTagName('meta');
+        meta["theme-color"].setAttribute('content', '<?="#".$gray_theme?>');
+    </script>
+    <?
+}
+
+
+
 ?>
 
