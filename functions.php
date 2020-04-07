@@ -110,7 +110,7 @@ function theme_int_set()
     global $theme_option;
     $theme_option = get_option(THEME_ID_SET);
     if ($theme_option == false || $theme_option == '{}') {
-        $theme_option = array('seo' => 0, 'single_icon' => '', 'index_title' => '', 'site_description' => '', 'site_key' => '', 'autoseo' => 0,'version'=>THEME_VERSION, 'autogray' => 0);
+        $theme_option = array('seo' => 0, 'single_icon' => '', 'index_title' => '', 'site_description' => '', 'site_key' => '', 'autoseo' => 0,'version'=>THEME_VERSION, 'autogray' => 0, );
 
         update_option(THEME_ID_SET, json_encode($theme_option));
         $theme_option = json_decode(json_encode($theme_option), true);
@@ -411,4 +411,21 @@ function postviews_round_number( $number, $min_value = 1000, $decimal = 1 ) {
             return round( $number / $key, $decimal ) . '' . $value;
         }
 }
+
+function Baidu_Submit($post_ID) {
+    global $theme_option;
+    $WEB_TOKEN = $theme_option['baidu_token'];
+    $WEB_DOMAIN = get_option('home');
+    if(get_post_meta($post_ID,'Baidusubmit',true) == 1) return;
+    $url = get_permalink($post_ID);
+    $api = 'http://data.zz.baidu.com/urls?site='.$WEB_DOMAIN.'&token='.$theme_option['baidu_token'];
+    $request = new WP_Http;
+    $result = $request->request( $api , array( 'method' => 'POST', 'body' => $url , 'headers' => 'Content-Type: text/plain') );
+    $result = json_decode($result['body'],true);
+    if (array_key_exists('success',$result)) {
+        add_post_meta($post_ID, 'Baidusubmit', 1, true);
+    }else{add_post_meta($post_ID, 'Baidusubmit', $api, true);}
+}
+add_action('publish_post', 'Baidu_Submit', 0);
+
 ?>

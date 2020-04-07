@@ -83,6 +83,13 @@ global $theme_option;
                                       disabled><?php echo $theme_option['site_key'] ?></textarea>
                         </div>
                     </div>
+                    <div class="layui-form-item">
+                        <div class="theme-set-title">设置百度推送token</div>
+                        <div class="theme-set-control">
+                            <input type="text" name="baidu_token" class="theme-set-input"
+                                   value="<?php echo $theme_option['baidu_token'] ?>">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="layui-tab-item">
@@ -304,6 +311,7 @@ global $theme_option;
             var folder_Articals = $("input[name=folder_Articals]").val();
             var gray_day = $("textarea[name=gray_day]").val();
             var gray_theme = $("input[name=gray_theme]").val();
+            var baidu_token = $("input[name=baidu_token]").val();
             var data = {
                 action: 'save_set',
                 seo: switch_seo,
@@ -324,7 +332,8 @@ global $theme_option;
                 folder_Articals: folder_Articals,
                 autogray: switch_autogray,
                 gray_day: gray_day,
-                gray_theme: gray_theme
+                gray_theme: gray_theme,
+                baidu_token: baidu_token
 
             }
             $.post("<?php echo admin_url('admin-ajax.php');?>", data, function (data) {

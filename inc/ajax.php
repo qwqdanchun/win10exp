@@ -21,6 +21,7 @@ function fun_save_set()
     $theme_option['autogray'] = $_POST['autogray'];
     $theme_option['gray_day'] = $_POST['gray_day'];
     $theme_option['gray_theme'] = $_POST['gray_theme'];
+    $theme_option['baidu_token'] = $_POST['baidu_token'];
     update_option(THEME_ID_SET, json_encode($theme_option));
     echo 1;
     wp_die();

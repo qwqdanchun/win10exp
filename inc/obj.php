@@ -277,8 +277,6 @@ function get_link_items(){
   return $result;
 }
 
-
-
 function obj_gray_set()
 {
     global $theme_option;
@@ -311,8 +309,5 @@ function obj_gray_set()
     </script>
     <?
 }
-
-
-
 ?>
 
