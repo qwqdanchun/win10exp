@@ -188,7 +188,7 @@ function obj_seo_set()
     $description = '';
     $keywords = '';
 
-    if (is_home()) {
+    if (is_front_page()) {
         $description = $theme_option['site_description'];
         if ($theme_option['site_description'] == '') {
             $description = bloginfo('description');
@@ -201,6 +201,7 @@ function obj_seo_set()
         }
         global $post;
         $description = str_replace("\n", "", mb_strimwidth(strip_tags($post->post_content), 0, 200, "…", 'utf-8'));
+        $keywords = $theme_option['site_key'];
 
         // 填写自定义字段description时显示自定义字段的内容，否则使用文章内容前200字作为描述
 
@@ -208,7 +209,7 @@ function obj_seo_set()
 
         $tags = wp_get_post_tags($post->ID);
         foreach ($tags as $tag) {
-            $keywords = $keywords . $tag->name . ", ";
+            $keywords = $keywords . "," . $tag->name . ", ";
         }
         $keywords = rtrim($keywords, ', ');
 
