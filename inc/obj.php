@@ -280,17 +280,13 @@ function get_link_items(){
 function obj_gray_set()
 {
     global $theme_option;
-
-    if ($theme_option['autogray'] != 1) {
-        return;
-    }
-    $gray_day = $theme_option['gray_day'];
     if ($theme_option['gray_theme'] == "") {
         $gray_theme = 757575;
+    }else{
+        $gray_theme = $theme_option['gray_theme'];
     }
-    
-    if ( strstr( $gray_day, date( 'm-d', current_time( 'timestamp' ) ) ) ):?>
-        <meta name="theme-color" content="757575">
+    if ( strstr( $theme_option['gray_day'], date( 'm-d', current_time( 'timestamp', 0 ) ) ) ){?>
+        <meta name="theme-color" content="$gray_theme">
         <style type="text/css">
             <!--
             html {
@@ -299,15 +295,9 @@ function obj_gray_set()
             }
             -->
         </style>
-        <?php win10exp_change_meta() ?>
-    <?php elseif ( ! empty( $gray_theme ) ): ?>
-        <meta name="theme-color" content="<?= $gray_theme; ?>">
-    <?php endif; ?>
-    <script>
-        var meta = document.getElementsByTagName('meta');
-        meta["theme-color"].setAttribute('content', '<?="#".$gray_theme?>');
-    </script>
-    <?
+    <?php }
 }
+
+
 ?>
 
