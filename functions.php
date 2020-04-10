@@ -111,7 +111,6 @@ function theme_int_set()
     $theme_option = get_option(THEME_ID_SET);
     if ($theme_option == false || $theme_option == '{}') {
         $theme_option = array('seo' => 0, 'single_icon' => '', 'index_title' => '', 'site_description' => '', 'site_key' => '', 'autoseo' => 0,'version'=>THEME_VERSION, 'autogray' => 0, );
-
         update_option(THEME_ID_SET, json_encode($theme_option));
         $theme_option = json_decode(json_encode($theme_option), true);
     } else {

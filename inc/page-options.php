@@ -13,6 +13,7 @@ global $theme_option;
     <h2>功能选项</h2>
     <div class="layui-tab">
         <ul class="layui-tab-title">
+            <li>站点设置</li>
             <li>SEO设置</li>
             <li>外观设置</li>
             <li>可用组件</li>
@@ -20,6 +21,44 @@ global $theme_option;
             <li class="layui-this">关于主题</li>
         </ul>
         <div class="layui-tab-content">
+            <div class="layui-tab-item">
+                <div class="layui-form theme-set-from" action="">
+
+                    <div class="layui-form-item">
+                        <div class="theme-set-title">copyright年份</div>
+                        <div class="theme-set-control">
+                            <input type="text" name="copyright_year" class="theme-set-input"
+                                   value="<?php echo $theme_option['copyright_year'] ?>">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="theme-set-title">备案号</div>
+                        <div class="theme-set-control">
+                            <input type="text" name="beian" class="theme-set-input"
+                                   value="<?php echo $theme_option['beian'] ?>">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="theme-set-title">自定义版权文字</div>
+                        <div class="theme-set-control">
+                            <textarea name="footer" class="layui-textarea"><?php echo $theme_option['footer'] ?></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="theme-set-title">百度统计代码（仅填hm.js?后的一串字符）</div>
+                        <div class="theme-set-control">
+                            <textarea name="tongji" class="layui-textarea"><?php echo $theme_option['tongji'] ?></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="theme-set-title">百度主动推送token</div>
+                        <div class="theme-set-control">
+                            <input type="text" name="baidu_token" class="theme-set-input"
+                                   value="<?php echo $theme_option['baidu_token'] ?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="layui-tab-item">
                 <div class="layui-form theme-set-from" action="">
                     <div class="layui-form-item">
@@ -81,13 +120,6 @@ global $theme_option;
                         <div class="theme-set-control">
                             <textarea name="site-key" class="layui-textarea"
                                       disabled><?php echo $theme_option['site_key'] ?></textarea>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <div class="theme-set-title">设置百度推送token</div>
-                        <div class="theme-set-control">
-                            <input type="text" name="baidu_token" class="theme-set-input"
-                                   value="<?php echo $theme_option['baidu_token'] ?>">
                         </div>
                     </div>
                 </div>
@@ -312,6 +344,10 @@ global $theme_option;
             var gray_day = $("textarea[name=gray_day]").val();
             var gray_theme = $("input[name=gray_theme]").val();
             var baidu_token = $("input[name=baidu_token]").val();
+            var copyright_year = $("input[name=copyright_year]").val();
+            var beian = $("input[name=beian]").val();
+            var footer = $("textarea[name=footer]").val();
+            var tongji = $("textarea[name=tongji]").val();
             var data = {
                 action: 'save_set',
                 seo: switch_seo,
@@ -333,8 +369,11 @@ global $theme_option;
                 autogray: switch_autogray,
                 gray_day: gray_day,
                 gray_theme: gray_theme,
+                tongji: tongji,
+                copyright_year: copyright_year,
+                beian: beian,
+                footer: footer,
                 baidu_token: baidu_token
-
             }
             $.post("<?php echo admin_url('admin-ajax.php');?>", data, function (data) {
                     if (data == 1) {

@@ -298,7 +298,16 @@ function obj_gray_set()
         </style>
     <?php }
 }
-
+function obj_footer_set()
+{
+    global $theme_option;
+    if ($theme_option['tongji'] == "") {
+        return;
+    }else{
+        $result .= '<script>var _hmt = _hmt || [];(function() {var hm = document.createElement("script");hm.src = "https://hm.baidu.com/hm.js?' . $theme_option['tongji'] . '";var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm, s);})();</script>';
+        echo $result;
+    }
+}
 
 ?>
 

@@ -22,6 +22,10 @@ function fun_save_set()
     $theme_option['gray_day'] = $_POST['gray_day'];
     $theme_option['gray_theme'] = $_POST['gray_theme'];
     $theme_option['baidu_token'] = $_POST['baidu_token'];
+    $theme_option['beian'] = $_POST['beian'];
+    $theme_option['footer'] = $_POST['footer'];
+    $theme_option['tongji'] = $_POST['tongji'];
+    $theme_option['copyright_year'] = $_POST['copyright_year'];
     update_option(THEME_ID_SET, json_encode($theme_option));
     echo 1;
     wp_die();
