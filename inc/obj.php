@@ -298,7 +298,7 @@ function obj_gray_set()
         </style>
     <?php }
 }
-function obj_footer_set()
+function obj_tongji_set()
 {
     global $theme_option;
     if ($theme_option['tongji'] == "") {
