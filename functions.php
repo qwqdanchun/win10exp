@@ -427,4 +427,13 @@ function Baidu_Submit($post_ID) {
 }
 add_action('publish_post', 'Baidu_Submit', 0);
 
+
+//替换头像源
+function gravatar_replace_avatar($avatar) {
+  $avatar = str_replace(array("www.gravatar.com", "0.gravatar.com", "1.gravatar.com", "2.gravatar.com","secure.gravatar.com"), "cdn.v2ex.com", $avatar);
+  $avatar = str_replace("/avatar/", "/gravatar/", $avatar);
+  return $avatar;
+}
+add_filter( 'get_avatar', 'gravatar_replace_avatar', 10, 3 );
+
 ?>
